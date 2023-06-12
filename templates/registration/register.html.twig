@@ -1,0 +1,75 @@
+{% extends 'base.html.twig' %}
+
+{% block title %}Register{% endblock %}
+
+{% block body %}
+    <main class="form-signin w-100 d-flex justify-content-center" style="margin-top: 150px;">
+        {{ form_start(registrationForm, {'attr': {'class': 'w-50'}}) }}
+        <img class="mb-4" src="https://getbootstrap.com/docs/5.3/assets/brand/bootstrap-logo.svg" alt="" width="72" height="57">
+        <h1 class="h3 mb-3 fw-normal">Please sign in</h1>
+        <div class="form-floating">
+            <div class="form-group my-3">
+                {{ form_label(registrationForm.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.email, {'attr': {'class': 'form-control pt-3 pb-3','placeholder': 'name@example.com'}}) }}
+                {{ form_errors(registrationForm.email) }}
+            </div>
+
+            <div class="form-group my-3">
+                {{ form_label(registrationForm.Phone, 'Phone', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.Phone, {'attr': {'class': 'form-control pt-3 pb-3','placeholder': 'Phone'}}) }}
+                {{ form_errors(registrationForm.Phone) }}
+            </div>
+
+            <div class="form-group my-3">
+                {{ form_label(registrationForm.Username, 'Username', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.Username, {'attr': {'class': 'form-control pt-3 pb-3','placeholder': 'Username'}}) }}
+                {{ form_errors(registrationForm.Username) }}
+            </div>
+
+            <div class="form-group my-3">
+                {{ form_label(registrationForm.full_name, 'Full name', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.full_name, {'attr': {'class': 'form-control pt-3 pb-3','placeholder': 'Full name'}}) }}
+                {{ form_errors(registrationForm.full_name) }}
+            </div>
+
+            <div class="form-group my-3">
+                {{ form_label(registrationForm.location, 'Location', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.location, {'attr': {'class': 'form-control pt-3 pb-3','placeholder': 'Location'}}) }}
+                {{ form_errors(registrationForm.location) }}
+            </div>
+
+            <div class="form-group my-3">
+                {{ form_label(registrationForm.plainPassword.first, 'Password', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.plainPassword.first, {'attr': {'class': 'form-control pt-3 pb-3','placeholder': 'Password'}}) }}
+                {{ form_errors(registrationForm.plainPassword.first) }}
+            </div>
+
+            <div class="form-group my-3">
+                {{ form_label(registrationForm.plainPassword.second, 'Confirm Password', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.plainPassword.second, {'attr': {'class': 'form-control pt-3 pb-3','placeholder': 'Password'}}) }}
+                {{ form_errors(registrationForm.plainPassword.second) }}
+            </div>
+
+            <div class="form-group my-3">
+                {{ form_label(registrationForm.avatar, 'Avatar', {'label_attr': {'class': 'form-label'}}) }}
+                {{ form_widget(registrationForm.avatar, {'attr': {'class': 'form-control pt-3 pb-3','placeholder': 'avatar'}}) }}
+                {{ form_errors(registrationForm.avatar) }}
+            </div>
+
+            <div class="form-check text-start my-3">
+                {{ form_widget(registrationForm.agreeTerms, {'attr': {'class': 'form-check-input'}}) }}
+                {{ form_label(registrationForm.agreeTerms, 'Agree to Terms', {'label_attr': {'class': 'form-check-label'}}) }}
+                {{ form_errors(registrationForm.agreeTerms) }}
+            </div>
+
+            <button type="submit" class="btn btn-primary w-100 py-2">Sauvegarder</button>
+            <p class="mt-5 mb-3 text-body-secondary">© 2017–2023</p>
+        </div>
+
+        {{ form_end(registrationForm) }}
+
+    </main>
+
+
+
+{% endblock %}

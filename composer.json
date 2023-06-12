@@ -19,7 +19,7 @@
         "symfony/expression-language": "6.0.*",
         "symfony/flex": "^2",
         "symfony/form": "6.0.*",
-        "symfony/framework-bundle": "6.0.*",
+        "symfony/framework-bundle": "v6.0.19",
         "symfony/http-client": "6.0.*",
         "symfony/intl": "6.0.*",
         "symfony/mailer": "6.0.*",
