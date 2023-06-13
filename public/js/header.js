@@ -4,10 +4,20 @@ window.onload = function (){
     init_button_color();
 
     qui_somme_nous();
+    index();
 }
 window.addEventListener("resize",function (){
     resize_header();
 })
+
+function index(){
+    let button = document.getElementById('button_close');
+    button.addEventListener('click',function (){
+        let main = document.getElementById('main')
+        let modalSheet = document.getElementById('modalSheet');
+        main.removeChild(modalSheet);
+    })
+}
 
 function qui_somme_nous(){
     let qui_somme_nous = document.getElementById('qui_somme_nous');

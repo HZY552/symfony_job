@@ -8,9 +8,6 @@
             <div class="collapse navbar-collapse" id="navbarSupportedContent">
                 <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link active text-white" aria-current="page" href="/categorie">A PROPOSE</a>
-                    </li>
-                    <li class="nav-item">
                         <a class="nav-link text-white" href="/qui_somme_nous">Qui somme nous</a>
                     </li>
                     <li class="nav-item dropdown">
@@ -18,7 +15,7 @@
                             Freelance
                         </a>
                         <ul class="dropdown-menu">
-                            <li><a class="dropdown-item text-dark" href="/devenir-freelance">Devenir freelance</a></li>
+                            <li><a class="dropdown-item text-dark" href="/register/freelance">Devenir freelance</a></li>
                             <li><a class="dropdown-item text-dark" href="#"></a></li>
                             <li><hr class="dropdown-divider text-dark"></li>
                             <li><a class="dropdown-item text-dark" href="#">Catégorie</a></li>
@@ -33,8 +30,17 @@
                     <div class="d-flex flex-row gap-2" id="group_button_2">
                         <div>
                             {% if isGranted %}
-                                <a href="/profile"><button class="btn btn-primary" type="button">{{ user.username }}</button></a>
-                                <a href="/logout"><button type="button" class="btn btn-outline-primary">LogOut</button></a>
+
+                                <div class="flex-shrink-0 dropdown" style="min-width: 150px;">
+                                    <a href="#" class="d-block link-body-emphasis text-decoration-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                                        <img src="{{ asset( 'avatars/' ~ user.getAvatar()) }}" alt="mdo" width="32" height="32" class="rounded-circle">
+                                    </a>
+                                    <ul class="dropdown-menu text-small shadow" style="">
+                                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                        <li><hr class="dropdown-divider"></li>
+                                        <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+                                    </ul>
+                                </div>
                                 <a href="/register" style="display: none;"><button type="button" class="btn btn-outline-primary">Inscription</button></a>
                             {% else %}
                                 <a href="/login"><button class="btn btn-primary" type="button">Login</button></a>

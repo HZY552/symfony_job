@@ -49,12 +49,6 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(length: 255)]
     private ?string $avatar = null;
 
-    #[ORM\Column(type: Types::TEXT)]
-    private ?string $bio = null;
-
-    #[ORM\Column(length: 255)]
-    private ?string $skills = null;
-
     #[ORM\Column(type: Types::TEXT, nullable: true)]
     private ?string $location = null;
 
@@ -67,8 +61,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\Column(type: Types::TEXT, nullable: true)]
-    private ?string $Description = null;
+    #[ORM\OneToOne(targetEntity: FreelancerProfile::class, mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?FreelancerProfile $freelancerProfile = null;
 
     public function getId(): ?int
     {
@@ -80,7 +74,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->email;
     }
 
-    public function setEmail(string $email): static
+    public function setEmail(string $email): self
     {
         $this->email = $email;
 
@@ -109,8 +103,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return array_unique($roles);
     }
 
-    public function setRoles(array $roles): static
+    public function setRoles(array $roles): self
     {
+        if (!in_array('ROLE_USER', $roles)) {
+            $roles[] = 'ROLE_USER';
+        }
+
         $this->roles = $roles;
 
         return $this;
@@ -124,7 +122,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->password;
     }
 
-    public function setPassword(string $password): static
+    public function setPassword(string $password): self
     {
         $this->password = $password;
 
@@ -145,7 +143,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->phone;
     }
 
-    public function setPhone(string $phone): static
+    public function setPhone(string $phone): self
     {
         $this->phone = $phone;
 
@@ -157,7 +155,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->full_name;
     }
 
-    public function setFullName(string $full_name): static
+    public function setFullName(string $full_name): self
     {
         $this->full_name = $full_name;
 
@@ -169,7 +167,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->username;
     }
 
-    public function setUsername(string $username): static
+    public function setUsername(string $username): self
     {
         $this->username = $username;
 
@@ -181,33 +179,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->avatar;
     }
 
-    public function setAvatar(string $avatar): static
+    public function setAvatar(string $avatar): self
     {
         $this->avatar = $avatar;
-
-        return $this;
-    }
-
-    public function getBio(): ?string
-    {
-        return $this->bio;
-    }
-
-    public function setBio(string $bio): static
-    {
-        $this->bio = $bio;
-
-        return $this;
-    }
-
-    public function getSkills(): ?string
-    {
-        return $this->skills;
-    }
-
-    public function setSkills(string $skills): static
-    {
-        $this->skills = $skills;
 
         return $this;
     }
@@ -217,7 +191,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->location;
     }
 
-    public function setLocation(?string $location): static
+    public function setLocation(?string $location): self
     {
         $this->location = $location;
 
@@ -229,7 +203,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->freelancer;
     }
 
-    public function setFreelancer(bool $freelancer): static
+    public function setFreelancer(bool $freelancer): self
     {
         $this->freelancer = $freelancer;
 
@@ -241,7 +215,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->created_at;
     }
 
-    public function setCreatedAt(\DateTimeImmutable $created_at): static
+    public function setCreatedAt(\DateTimeImmutable $created_at): self
     {
         $this->created_at = $created_at;
 
@@ -253,22 +227,53 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         return $this->updated_at;
     }
 
-    public function setUpdatedAt(\DateTimeImmutable $updated_at): static
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): self
     {
         $this->updated_at = $updated_at;
 
         return $this;
     }
 
-    public function getDescription(): ?string
+    public function getFreelancerProfile(): ?FreelancerProfile
     {
-        return $this->Description;
+        return $this->freelancerProfile;
     }
 
-    public function setDescription(?string $Description): static
+    public function setFreelancerProfile(FreelancerProfile $freelancerProfile): self
     {
-        $this->Description = $Description;
+        $this->freelancerProfile = $freelancerProfile;
+
+        // set the owning side of the relation if necessary
+        if ($freelancerProfile->getUser() !== $this) {
+            $freelancerProfile->setUser($this);
+        }
 
         return $this;
     }
+
+    public function update(array $data): self
+    {
+        if (isset($data['updateat'])) {
+            $this->setUpdatedAt($data['updateat']);
+        }
+
+        if (isset($data['Phone'])){
+            $this->setPhone($data['Phone']);
+        }
+
+        if (isset($date['Username'])){
+            $this->setUsername($date['Username']);
+        }
+
+        if (isset($date['FullName'])){
+            $this->setFullName($date['FullName']);
+        }
+
+        if (isset($date['Location'])){
+            $this->setLocation($date['Location']);
+        }
+
+        return $this;
+    }
+
 }
