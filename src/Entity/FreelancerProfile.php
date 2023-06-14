@@ -28,7 +28,7 @@ class FreelancerProfile
     #[ORM\Column(type: 'integer')]
     private ?int $userId = null;
 
-    #[ORM\OneToOne(targetEntity: User::class, inversedBy: 'profile')]
+    #[ORM\OneToOne(targetEntity: User::class, mappedBy: 'profile')]
     #[ORM\JoinColumn(name: 'user_id', referencedColumnName: 'id')]
     private ?User $user = null;
 

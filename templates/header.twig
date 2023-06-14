@@ -16,16 +16,13 @@
                         </a>
                         <ul class="dropdown-menu">
                             <li><a class="dropdown-item text-dark" href="/register/freelance">Devenir freelance</a></li>
-                            <li><a class="dropdown-item text-dark" href="#"></a></li>
-                            <li><hr class="dropdown-divider text-dark"></li>
-                            <li><a class="dropdown-item text-dark" href="#">Catégorie</a></li>
                         </ul>
                     </li>
                 </ul>
-                <form class="d-flex flex-column gap-2" role="search" id="group_form">
+                <div class="d-flex flex-column gap-2" id="group_form">
                     <div class="d-flex flex-row gap-2" id="group_button">
-                        <input class="form-control me-2" type="search" placeholder="Chercher" aria-label="Chercher">
-                        <button type="button" class="btn btn-outline-secondary">Chercher</button>
+                        <input class="form-control me-2" placeholder="Chercher" id="input_rechercher">
+                        <button type="button" class="btn btn-outline-secondary" id="button_rechercher" onclick="onclickRechercher()">Chercher</button>
                     </div>
                     <div class="d-flex flex-row gap-2" id="group_button_2">
                         <div>
@@ -36,19 +33,19 @@
                                         <img src="{{ asset( 'avatars/' ~ user.getAvatar()) }}" alt="mdo" width="32" height="32" class="rounded-circle">
                                     </a>
                                     <ul class="dropdown-menu text-small shadow" style="">
-                                        <li><a class="dropdown-item" href="/profile">Profile</a></li>
+                                        <li><a class="dropdown-item" href="/profile">Profil</a></li>
                                         <li><hr class="dropdown-divider"></li>
-                                        <li><a class="dropdown-item" href="/logout">Sign out</a></li>
+                                        <li><a class="dropdown-item" href="/logout">Se Déconnecter</a></li>
                                     </ul>
                                 </div>
                                 <a href="/register" style="display: none;"><button type="button" class="btn btn-outline-primary">Inscription</button></a>
                             {% else %}
-                                <a href="/login"><button class="btn btn-primary" type="button">Login</button></a>
+                                <a href="/login"><button class="btn btn-primary" type="button">Connexion</button></a>
                                 <a href="/register"><button type="button" class="btn btn-outline-primary">Inscription</button></a>
                             {% endif %}
                         </div>
                     </div>
-                </form>
+                </div>
             </div>
         </div>
     </nav>

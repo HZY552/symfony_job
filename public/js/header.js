@@ -5,6 +5,7 @@ window.onload = function (){
 
     qui_somme_nous();
     index();
+    rechercher();
 }
 window.addEventListener("resize",function (){
     resize_header();
@@ -12,10 +13,49 @@ window.addEventListener("resize",function (){
 
 function index(){
     let button = document.getElementById('button_close');
-    button.addEventListener('click',function (){
-        let main = document.getElementById('main')
-        let modalSheet = document.getElementById('modalSheet');
-        main.removeChild(modalSheet);
+    if (button){
+        button.addEventListener('click',function (){
+            let main = document.getElementById('main')
+            let modalSheet = document.getElementById('modalSheet');
+            main.removeChild(modalSheet);
+        })
+    }
+}
+
+function rechercher(){
+    let p_c = document.getElementById('p-c');
+    let pd_c = document.getElementById('pd-c');
+
+    if(p_c && pd_c){
+        p_c.addEventListener('click',function (){
+            let new_url = window.location.href;
+            let url_parts = new_url.split('?');
+            let url_before_question_mark = url_parts[0];
+
+            window.location.href = url_before_question_mark + "?pc=true";
+        })
+
+        pd_c.addEventListener('click',function (){
+            let new_url = window.location.href;
+            let url_parts = new_url.split('?');
+            let url_before_question_mark = url_parts[0];
+
+            window.location.href = url_before_question_mark + "?pc=false";
+        })
+    }
+}
+
+function onclickRechercher(){
+    var searchButton = document.getElementById('button_rechercher');
+    var searchInput = document.getElementById('input_rechercher');
+
+    // 给搜索按钮添加点击事件处理函数
+    searchButton.addEventListener("click", function() {
+        // 获取搜索关键字的值
+        var keyword = searchInput.value;
+
+        // 构建新的链接
+        window.location.href = "/rechercher/" + keyword;
     })
 }
 
