@@ -18,6 +18,8 @@ use Symfony\Component\Security\Core\Security;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\Query;
+use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use function PHPUnit\Framework\throwException;
 
 class ProfileController extends AbstractController
 {
@@ -25,7 +27,7 @@ class ProfileController extends AbstractController
     #[Route('/profile', name: 'app_profile')]
     public function index(Security $security,Request $request,EntityManagerInterface $entityManager): Response
     {
-
+        // test
         if ($security->isGranted('ROLE_USER')){
             $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $security->getUser()->getUserIdentifier()]);
             $form = $this->createForm(UpdateProfileFormType::class, $user);
@@ -109,30 +111,41 @@ class ProfileController extends AbstractController
     public function freelance_profile_education(Security $security,Request $request,EntityManagerInterface $entityManager,$id): Response
     {
         $user = $entityManager->getRepository(User::class)->findOneBy(['email' => $security->getUser()->getUserIdentifier()]);
-        $freelanceprofile = $entityManager->getRepository(FreelancerProfile::class)->findOneBy(['userId' => $user->getId()]);
-        $education = $entityManager->getRepository(Education::class)->findBy(['freelancerProfile' => $freelanceprofile->getId()]);
+
+        if ($user->isFreelancer()){
+            $freelanceprofile = $entityManager->getRepository(FreelancerProfile::class)->findOneBy(['userId' => $user->getId()]);
+            $education = $entityManager->getRepository(Education::class)->findBy(['freelancerProfile' => $freelanceprofile->getId()]);
+        }else{
+            throw $this->createAccessDeniedException('You do not have permission to access this page.');
+        }
+
 
         if ($id != 0 && $id != 4589147){
 
             $education_form = $entityManager->getRepository(Education::class)->findOneBy(['id' => $id]);
-            $form = $this->createForm(UpdateFreelanceEducation::class, $education_form);
+            if ($user->isFreelancer() && $education_form->getFreelancerProfile()->getUser()->getId() === $user->getId()){
+                $form = $this->createForm(UpdateFreelanceEducation::class, $education_form);
 
-            $form->handleRequest($request);
+                $form->handleRequest($request);
 
-            if ($form->isSubmitted() && $form->isValid()) {
+                if ($form->isSubmitted() && $form->isValid()) {
 
-                $freelanceprofile->update([
-                    'Degree' => $form->get('degree')->getData(),
-                    'School' => $form->get('school')->getData(),
-                    'StartYear' => $form->get('startYear')->getData(),
-                    'EndYear' => $form->get('endYear')->getData(),
-                ]);
+                    $freelanceprofile->update([
+                        'Degree' => $form->get('degree')->getData(),
+                        'School' => $form->get('school')->getData(),
+                        'StartYear' => $form->get('startYear')->getData(),
+                        'EndYear' => $form->get('endYear')->getData(),
+                    ]);
 
-                $entityManager->flush();
+                    $entityManager->flush();
 
+                }
+
+                $form_valid = $form->createView();
+            }else{
+                throw $this->createAccessDeniedException('You do not have permission to access this page.');
             }
 
-            $form_valid = $form->createView();
         }elseif ($id == 4589147){
             $education_form = new Education();
 
@@ -190,33 +203,42 @@ class ProfileController extends AbstractController
     #[Route('/profile/commandes/details/{id}', name: 'app_user_commandes_details')]
     public function user_commande_details(Security $security,EntityManagerInterface $entityManager,$id){
         $userId = $entityManager->getRepository(User::class)->findOneBy(['email'=>$this->getUser()->getUserIdentifier()]);
-        $commande = $entityManager->getRepository(Commande::class)->findOneBy(['id'=>$id]);
 
-        $startDate = new \DateTime($commande->getStartDate()->format('Y-m-d'));
-        $endDate = new \DateTime($commande->getEndDate()->format('Y-m-d'));
-        $interval = $startDate->diff($endDate);
-        $days = $interval->days;
-        if($days <= 0){
-            $days = 1;
+        $commande = $entityManager->getRepository(Commande::class)->findOneBy(['id'=>$id]);
+        if ($userId->getId() === $commande->getBuyer()->getId() || $userId->getId() === $commande->getFreelancer()->getId()){
+
+            $startDate = new \DateTime($commande->getStartDate()->format('Y-m-d'));
+            $endDate = new \DateTime($commande->getEndDate()->format('Y-m-d'));
+            $interval = $startDate->diff($endDate);
+            $days = $interval->days;
+            if($days <= 0){
+                $days = 1;
+            }
+
+            return $this->render('profile/index.html.twig', [
+                'isGranted' => $security->isGranted('ROLE_USER'),
+                'user' => $this->getUser(),
+                'commande' => $commande,
+                'days' => $days,
+            ]);
+        }else{
+            throw $this->createAccessDeniedException('You do not have permission to access this page.');
         }
 
-        return $this->render('profile/index.html.twig', [
-            'isGranted' => $security->isGranted('ROLE_USER'),
-            'user' => $this->getUser(),
-            'commande' => $commande,
-            'days' => $days,
-        ]);
     }
 
     #[Route('/profile/commandes/delete/{id}', name: 'app_user_commandes_delete')]
     public function user_commande_delete(Security $security,EntityManagerInterface $entityManager,$id){
         $userId = $entityManager->getRepository(User::class)->findOneBy(['email'=>$this->getUser()->getUserIdentifier()]);
         $commande = $entityManager->getRepository(Commande::class)->findOneBy(['id'=>$id]);
-        if (!empty($commande)){
-            $entityManager->remove($commande);
-            $entityManager->flush();
+        if ($userId->getId() === $commande->getBuyer()->getId() || $userId->getId() === $commande->getFreelancer()->getId()){
+            if (!empty($commande)){
+                $entityManager->remove($commande);
+                $entityManager->flush();
+            }
+        }else{
+            throwException($this->createAccessDeniedException('You do not have permission to access this page.'));
         }
-
         return $this->redirectToRoute("app_user_commandes");
     }
 
