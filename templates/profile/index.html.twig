@@ -28,6 +28,10 @@
             {% include '/profile/userCommandes.html.twig' %}
         {% endif %}
 
+        {% if app.request.attributes.get('_route') == 'app_user_commandes_details' %}
+            {% include '/profile/commande_detail.html.twig' %}
+        {% endif %}
+
         <style>
             header {
                 display: none !important;

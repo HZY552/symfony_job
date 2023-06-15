@@ -181,4 +181,39 @@ class ProfileController extends AbstractController
             'commandes' => $commande,
         ]);
     }
+
+    #[Route('/profile/commandes/details/{id}', name: 'app_user_commandes_details')]
+    public function user_commande_details(Security $security,EntityManagerInterface $entityManager,$id){
+        $userId = $entityManager->getRepository(User::class)->findOneBy(['email'=>$this->getUser()->getUserIdentifier()]);
+        $commande = $entityManager->getRepository(Commande::class)->findOneBy(['id'=>$id]);
+
+        $startDate = new \DateTime($commande->getStartDate()->format('Y-m-d'));
+        $endDate = new \DateTime($commande->getEndDate()->format('Y-m-d'));
+        $interval = $startDate->diff($endDate);
+        $days = $interval->days;
+        if($days <= 0){
+            $days = 1;
+        }
+
+        return $this->render('profile/index.html.twig', [
+            'isGranted' => $security->isGranted('ROLE_USER'),
+            'user' => $this->getUser(),
+            'commande' => $commande,
+            'days' => $days,
+        ]);
+    }
+
+    #[Route('/profile/commandes/delete/{id}', name: 'app_user_commandes_delete')]
+    public function user_commande_delete(Security $security,EntityManagerInterface $entityManager,$id){
+        $userId = $entityManager->getRepository(User::class)->findOneBy(['email'=>$this->getUser()->getUserIdentifier()]);
+        $commande = $entityManager->getRepository(Commande::class)->findOneBy(['id'=>$id]);
+        if (!empty($commande)){
+            $entityManager->remove($commande);
+            $entityManager->flush();
+        }
+
+        return $this->redirectToRoute("app_user_commandes");
+    }
+
+
 }

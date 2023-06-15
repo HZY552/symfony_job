@@ -1,29 +1,51 @@
-<table class="table caption-top" style="width: 60%;height: 98%;margin: 0 auto;margin-top: 10px;">
-    <thead class="table-light">
-    <tr>
-        <th scope="col">Id</th>
-        <th scope="col">Username</th>
-        <th scope="col">Freelancer</th>
-        <th scope="col">Freelancer Email</th>
-        <th scope="col">Price</th>
-        <th scope="col">Start Date</th>
-        <th scope="col">End Date</th>
-        <th scope="col">Post</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for commande in commandes %}
+<div class="table-responsive" style="margin: 0 auto; width: 80%;padding: 20px 20px;">
+    <table class="table caption-top">
+        <h3 class="w-100 mt-5 mb-5">Mes Commandes</h3>
+        <thead class="table-light">
         <tr>
-            <th scope="row">{{ commande.getId() }}</th>
-            <td>{{ commande.getBuyer().getUsername() }}</td>
-            <td>{{ commande.getFreelancer().getUsername() }}</td>
-            <td>{{ commande.getFreelancer().getUserIdentifier() }}</td>
-            <td>{{ commande.getTotalPrice() }}</td>
-            <td>{{ commande.getStartDate()|date('Y-m-d') }}</td>
-            <td>{{ commande.getEndDate()|date('Y-m-d') }}</td>
-            <td>{{ commande.getPoste() }}</td>
+            <th scope="col">Id</th>
+            <th scope="col">Username</th>
+            <th scope="col">Freelancer</th>
+            <th scope="col">Freelancer Email</th>
+            <th scope="col">Price</th>
+            <th scope="col">Start Date</th>
+            <th scope="col">End Date</th>
+            <th scope="col">Post</th>
+            <th></th>
+            <th></th>
         </tr>
-    {% endfor %}
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+        {% for commande in commandes %}
+            <tr>
+                <th scope="row">{{ commande.getId() }}</th>
+                <td>{{ commande.getBuyer().getUsername() }}</td>
+                <td>{{ commande.getFreelancer().getUsername() }}</td>
+                <td>{{ commande.getFreelancer().getUserIdentifier() }}</td>
+                <td>{{ commande.getTotalPrice() }}</td>
+                <td>{{ commande.getStartDate()|date('Y-m-d') }}</td>
+                <td>{{ commande.getEndDate()|date('Y-m-d') }}</td>
+                <td>{{ commande.getPoste() }}</td>
+                <td>
+                    <a href="{{ '/profile/commandes/details/' ~ commande.getId() }}">
+                        <button class="btn btn-primary rounded-pill px-3" type="button">Détails</button>
+                    </a>
+                </td>
+                <td>
+                    <a href="{{ '/profile/commandes/delete/' ~ commande.getId() }}">
+                        <button class="btn btn-danger rounded-pill px-3" type="button">Supprimer</button>
+                    </a>
+                </td>
+            </tr>
+        {% endfor %}
+        </tbody>
+
+
+    </table>
+
+</div>
+
+
+
+
 
