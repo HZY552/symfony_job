@@ -32,39 +32,39 @@
             <label for="email" class="form-label">Poste </label>
             <input type="email" class="form-control" id="email" placeholder="{{ commande.getPoste()}}" disabled>
             <div class="invalid-feedback">
-                Please enter a valid email address for shipping updates.
+                Veuillez saisir une adresse électronique valide pour les mises à jour concernant l'expédition.
             </div>
         </div>
         <div class="col-sm-6">
-            <label for="lastName" class="form-label">Date Start</label>
+            <label for="lastName" class="form-label">Date de début</label>
             <input type="text" class="form-control" id="lastName" placeholder="{{ commande.getStartDate()|date('Y-m-d') }}" value="" required="" disabled>
         </div>
         <div class="col-sm-6">
-            <label for="lastName" class="form-label">Date End</label>
+            <label for="lastName" class="form-label">Date de fin</label>
             <input type="text" class="form-control" id="lastName" placeholder="{{ commande.getEndDate()|date('Y-m-d') }}" value="" required="" disabled>
         </div>
         <div class="col-12">
-            <label for="address" class="form-label">Task Duration</label>
+            <label for="address" class="form-label">Durée de la tache</label>
             <input type="text" class="form-control" id="address" placeholder="{{ days ~ ' Days' }}" required="" disabled>
         </div>
 
         <div class="col-12">
-            <label for="address2" class="form-label">Price</label>
+            <label for="address2" class="form-label">Prix</label>
             <input type="text" class="form-control" id="address2" placeholder="{{ commande.getUnitPrice() ~ ' €'}}" disabled>
         </div>
 
         <div class="col-12">
-            <label for="address2" class="form-label">Price Total</label>
+            <label for="address2" class="form-label">Prix Total</label>
             <input type="text" class="form-control" id="address2" placeholder="{{ commande.getTotalPrice() ~ ' €'}}" disabled>
         </div>
 
         <div class="col-12">
-            <label for="address2" class="form-label">Price Total</label>
+            <label for="address2" class="form-label">Prix Total</label>
             <textarea class="form-control" disabled>{{ commande.getObjet() }}</textarea>
         </div>
 
         <div class="col-12">
-            <label for="address2" class="form-label">Discription</label>
+            <label for="address2" class="form-label">Description</label>
             <textarea class="form-control" disabled>{{ commande.getDiscriptionMission() }}</textarea>
         </div>
         <hr class="my-4">
