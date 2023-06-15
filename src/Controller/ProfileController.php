@@ -2,12 +2,14 @@
 
 namespace App\Controller;
 
+use App\Entity\Commande;
 use App\Entity\Education;
 use App\Entity\FreelancerProfile;
 use App\Entity\User;
 use App\Form\UpdateFreelanceEducation;
 use App\Form\UpdateFreelanceInfo;
 use App\Form\UpdateProfileFormType;
+use Container8vRJyIR\getDoctrine_Orm_Validator_UniqueService;
 use Doctrine\ORM\EntityManagerInterface;
 use Symfony\Component\Form\Extension\Core\Type\CollectionType;
 use Symfony\Component\HttpFoundation\Response;
@@ -166,6 +168,17 @@ class ProfileController extends AbstractController
             'list_education' => $education,
             'form' => $form_valid,
             'education_form' => $education_form,
+        ]);
+    }
+    #[Route('/profile/commandes', name: 'app_user_commandes')]
+    public function user_commande(Security $security,EntityManagerInterface $entityManager){
+        $userId = $entityManager->getRepository(User::class)->findOneBy(['email'=>$this->getUser()->getUserIdentifier()]);
+        $commande = $entityManager->getRepository(Commande::class)->findBy(['buyer'=>$userId]);
+
+        return $this->render('profile/index.html.twig', [
+            'isGranted' => $security->isGranted('ROLE_USER'),
+            'user' => $this->getUser(),
+            'commandes' => $commande,
         ]);
     }
 }

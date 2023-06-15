@@ -20,6 +20,8 @@ class FreelanceController extends AbstractController
     #[Route('/freelance/{id}', name: 'app_freelance')]
     public function index($id,Security $security,Request $request,EntityManagerInterface $entityManager): Response
     {
+
+
         $freelancer = $entityManager->getRepository(User::class)->findOneBy(['id' => $id]);
 
         $profile = $entityManager->getRepository(FreelancerProfile::class)->findOneBy(['userId' => $id]);
@@ -46,6 +48,12 @@ class FreelanceController extends AbstractController
                 array_push($list_name,"Utilisateur anonyme");
                 array_push($list_avatar,"default-avatar.png");
             }
+        }
+
+        $buttonClicked = $request->request->get('buttonClicked');
+
+        if ($buttonClicked === 'true') {
+            return $this->redirectToRoute('app_commande', ['freelanceId' => $freelancer->getId()]);
         }
 
         $comment = new Comment();

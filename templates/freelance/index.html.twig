@@ -68,6 +68,10 @@
 
             <div class="col-md-4">
                 <div class="position-sticky" style="top: 6rem;">
+                    <form method="post" >
+                        <input type="hidden" name="buttonClicked" value="true">
+                        <button type="submit">点击按钮</button>
+                    </form>
                     <div class="p-4 mb-3 bg-body-tertiary rounded">
                         <h4 class="fst-italic">A Propose</h4>
                         <p class="mb-0">{{ profile.getDescription() }}</p>

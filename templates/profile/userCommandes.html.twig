@@ -1,0 +1,29 @@
+<table class="table caption-top" style="width: 60%;height: 98%;margin: 0 auto;margin-top: 10px;">
+    <thead class="table-light">
+    <tr>
+        <th scope="col">Id</th>
+        <th scope="col">Username</th>
+        <th scope="col">Freelancer</th>
+        <th scope="col">Freelancer Email</th>
+        <th scope="col">Price</th>
+        <th scope="col">Start Date</th>
+        <th scope="col">End Date</th>
+        <th scope="col">Post</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for commande in commandes %}
+        <tr>
+            <th scope="row">{{ commande.getId() }}</th>
+            <td>{{ commande.getBuyer().getUsername() }}</td>
+            <td>{{ commande.getFreelancer().getUsername() }}</td>
+            <td>{{ commande.getFreelancer().getUserIdentifier() }}</td>
+            <td>{{ commande.getTotalPrice() }}</td>
+            <td>{{ commande.getStartDate()|date('Y-m-d') }}</td>
+            <td>{{ commande.getEndDate()|date('Y-m-d') }}</td>
+            <td>{{ commande.getPoste() }}</td>
+        </tr>
+    {% endfor %}
+    </tbody>
+</table>
+
