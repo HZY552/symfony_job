@@ -173,7 +173,12 @@ class ProfileController extends AbstractController
     #[Route('/profile/commandes', name: 'app_user_commandes')]
     public function user_commande(Security $security,EntityManagerInterface $entityManager){
         $userId = $entityManager->getRepository(User::class)->findOneBy(['email'=>$this->getUser()->getUserIdentifier()]);
-        $commande = $entityManager->getRepository(Commande::class)->findBy(['buyer'=>$userId]);
+        if (!$userId->isFreelancer()){
+            $commande = $entityManager->getRepository(Commande::class)->findBy(['buyer'=>$userId]);
+        }else{
+            $commande = $entityManager->getRepository(Commande::class)->findBy(['freelancer'=>$userId]);
+        }
+
 
         return $this->render('profile/index.html.twig', [
             'isGranted' => $security->isGranted('ROLE_USER'),

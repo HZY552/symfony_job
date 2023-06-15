@@ -16,11 +16,11 @@ class Commande
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $buyer = null;
+    private ?User $buyer = null;
 
     #[ORM\ManyToOne(inversedBy: 'commandes')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?user $freelancer = null;
+    private ?User $freelancer = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE)]
     private ?\DateTimeInterface $create_date = null;
@@ -49,29 +49,32 @@ class Commande
     #[ORM\Column]
     private ?bool $state = null;
 
+    #[ORM\OneToOne(mappedBy: 'n_commande', cascade: ['persist', 'remove'])]
+    private ?Invoice $invoice = null;
+
     public function getId(): ?int
     {
         return $this->id;
     }
 
-    public function getBuyer(): ?user
+    public function getBuyer(): ?User
     {
         return $this->buyer;
     }
 
-    public function setBuyer(?user $buyer): static
+    public function setBuyer(?User $buyer): static
     {
         $this->buyer = $buyer;
 
         return $this;
     }
 
-    public function getFreelancer(): ?user
+    public function getFreelancer(): ?User
     {
         return $this->freelancer;
     }
 
-    public function setFreelancer(?user $freelancer): static
+    public function setFreelancer(?User $freelancer): static
     {
         $this->freelancer = $freelancer;
 
@@ -182,6 +185,23 @@ class Commande
     public function setState(bool $state): static
     {
         $this->state = $state;
+
+        return $this;
+    }
+
+    public function getInvoice(): ?Invoice
+    {
+        return $this->invoice;
+    }
+
+    public function setInvoice(Invoice $invoice): static
+    {
+        // set the owning side of the relation if necessary
+        if ($invoice->getNCommande() !== $this) {
+            $invoice->setNCommande($this);
+        }
+
+        $this->invoice = $invoice;
 
         return $this;
     }
