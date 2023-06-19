@@ -59,7 +59,6 @@ class HomeController extends AbstractController
 
         $freelancerProfiles = $entityManager->getRepository(FreelancerProfile::class)->findBy(['userId' => $list_id]);
 
-
         return $this->render('home/index.html.twig', [
             'controller_name' => 'HomeController',
             'isGranted' => $security->isGranted('ROLE_USER'),

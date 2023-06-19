@@ -26,6 +26,7 @@ class SecurityController extends AbstractController
             'last_username' => $lastUsername,
             'error' => $error,
             'isGranted' => $security->isGranted('ROLE_USER'),
+            'user' => $this->getUser(),
         ]);
     }
 

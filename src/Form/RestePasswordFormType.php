@@ -2,16 +2,15 @@
 
 namespace App\Form;
 
-use App\Entity\Commande;
+use App\Entity\User;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 
-class CommandeFormType extends AbstractType
+class RestePasswordFormType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
-
         $builder
             ->add('start_date')
             ->add('end_date')

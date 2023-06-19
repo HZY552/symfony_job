@@ -76,7 +76,7 @@ class RegistrationController extends AbstractController
             $this->entityManager->persist($user);
             $this->entityManager->flush();
 
-            $this->addFlash('success', $this->translator->trans('Registration successful! Welcome, %email%', ['%email%' => $user->getEmail()]));
+            $this->addFlash('success', $this->translator->trans('Update successful! Welcome, %email%', ['%email%' => $user->getEmail()]));
 
             return $this->redirectToRoute('app_login');
         }
@@ -140,5 +140,6 @@ class RegistrationController extends AbstractController
             'user' => $this->getUser(),
         ]);
     }
+
 }
 

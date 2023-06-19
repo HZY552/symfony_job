@@ -19,11 +19,15 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Doctrine\ORM\Query;
 use Symfony\Component\Security\Core\Exception\AccessDeniedException;
+use Symfony\Contracts\Translation\TranslatorInterface;
 use function PHPUnit\Framework\throwException;
 
 class ProfileController extends AbstractController
 {
-
+    public function __construct(TranslatorInterface $translator)
+    {
+        $this->translator = $translator;
+    }
     #[Route('/profile', name: 'app_profile')]
     public function index(Security $security,Request $request,EntityManagerInterface $entityManager): Response
     {
@@ -43,8 +47,11 @@ class ProfileController extends AbstractController
                     'Location' => $form->get('location')->getData(),
                 ]);
 
+                $this->addFlash('success', $this->translator->trans('Registration successful! %email%', ['%email%' => $this->getUser()->getUserIdentifier()]));
                 $entityManager->flush();
+                $this->redirectToRoute('app_profile');
             }
+
             return $this->render('profile/index.html.twig', [
                 'isGranted' => $security->isGranted('ROLE_USER'),
                 'user' => $this->getUser(),

@@ -23,9 +23,9 @@
             </div>
         {% endfor %}
         <section class="jumbotron text-center h-100 w-100 d-flex justify-content-center flex-column">
-            <div class="container">
-                <h1 class="jumbotron-heading text-white font-weight-bold">Nous connectons les entreprises avec les meilleurs experts indépendants</h1>
-                <p class="lead font-weight-bold text-white">Nous vous permettons de travailler et contractualiser sereinement avec notre communauté de
+            <div class="" style="background-color: rgba(0,0,0,40%);padding: 50px 0px;">
+                <h1 class="jumbotron-heading text-white font-weight-bold" style="font-size: 2.5vw;padding: 0px 50px;margin-bottom: 20px;">Nous connectons les entreprises avec les meilleurs experts indépendants</h1>
+                <p class="lead font-weight-bold text-white" style="font-weight: 700;margin-bottom: 20px;font-size: 1vw;">Nous vous permettons de travailler et contractualiser sereinement avec notre communauté de
                     </br>
                     370 000 experts indépendants et notre réseau de 1 000 PME et Start-Up.</p>
                 <p>
@@ -50,15 +50,15 @@
                         <div class="card shadow-sm">
                             <img src="{{ asset('avatars/' ~ top_freelance.getUser().getAvatar()) }}" width="300" height="300" style="margin: 0 auto;border-radius: 50%">
                             <div class="card-body">
-                                <p>{{ top_freelance.getUser().getFullName() }}</p>
-                                <p class="card-text">{{ top_freelance.getDescription()|slice(0, 200)|length > 150 ? top_freelance.getDescription()|slice(0, 200) ~ ' ...' : top_freelance.getDescription() }}</p>
+                                <p style="font-weight: 700;">{{ top_freelance.getUser().getFullName() }}</p>
+                                <p class="card-text" style="color: rgba(33,37,41,75%)">{{ top_freelance.getDescription()|slice(0, 200)|length > 150 ? top_freelance.getDescription()|slice(0, 200) ~ ' ...' : top_freelance.getDescription() }}</p>
                                 <div class="d-flex justify-content-between align-items-center">
                                     <div class="btn-group">
                                         <a href="{{ 'freelance/' ~ top_freelance.getUser().getId() }}">
                                             <button type="button" class="btn btn-primary">En Savoir Plus</button>
                                         </a>
                                     </div>
-                                    <small class="text-body-secondary">{{ top_freelance.getPrice() ~ ' €'}}</small>
+                                    <small class="text-body-secondary" style="font-weight: 700;">{{ top_freelance.getPrice() ~ ' €'}}</small>
                                 </div>
                             </div>
                         </div>
@@ -142,21 +142,21 @@
                         {{ form_start(form, {'attr': {'class': 'needs-validation'}}) }}
                             <div class="row g-3">
                                 <div class="col-12">
-                                    {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_label(form.name, 'Nom', {'label_attr': {'class': 'form-label','style': 'font-weight: 700;'}}) }}
                                     {{ form_widget(form.name, {'attr': {'class': 'form-control pt-3 pb-3','placeholder': 'Name'}}) }}
                                     {{ form_errors(form.name) }}
                                 </div>
                             </div>
                             <div class="row g-3">
                                 <div class="col-12">
-                                    {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_label(form.email, 'Email', {'label_attr': {'class': 'form-label','style': 'font-weight: 700;'}}) }}
                                     {{ form_widget(form.email, {'attr': {'class': 'form-control pt-3 pb-3','placeholder': 'Email'}}) }}
                                     {{ form_errors(form.email) }}
                                 </div>
                             </div>
                             <div class="row g-3">
                                 <div class="col-12">
-                                    {{ form_label(form.message, 'Message', {'label_attr': {'class': 'form-label'}}) }}
+                                    {{ form_label(form.message, 'Message', {'label_attr': {'class': 'form-label','style': 'font-weight: 700;'}}) }}
                                     {{ form_widget(form.message, {'attr': {'class': 'form-control pt-3 pb-3','placeholder': 'Message'}}) }}
                                     {{ form_errors(form.message) }}
                                 </div>
